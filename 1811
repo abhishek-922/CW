@@ -1,0 +1,101 @@
+import tkinter as tk
+import tkinter.font as font
+from tkinter import messagebox  # This gives access to message boxes.
+from tkinter import simpledialog  # Used for single value data entry.
+from tkinter import filedialog  # Returns the path to a file.
+from tkinter import colorchooser
+import sqlite3
+from contextlib import closing
+import os
+
+
+def screen_geometry():
+    width, height = 500, 470
+    # root.geometry('%dx%d+0+0' % (width, height))
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    # root.geometry('%dx%d+0+0' % (screen_width, screen_height))
+
+    x_cord = int((screen_width / 2) - (width / 2))
+    y_cord = int((screen_height / 2) - (height / 2))
+    root.geometry('{}x{}+{}+{}'.format(width, height, x_cord, y_cord))
+
+
+connection = sqlite3.connect("my_team.db")
+cursor = connection.cursor()
+
+# cursor.execute("CREATE TABLE members (Name VARCHAR(255), UID VARCHAR(255), Password VARCHAR(255))")
+# cursor.execute("CREATE TABLE meetings (Title VARCHAR(255), Date VARCHAR(255), Time VARCHAR(255),"
+#               " Attendees VARCHAR(255))")
+# cursor.execute("CREATE TABLE notes (Text VARCHAR(255), Time VARCHAR(255), Date VARCHAR(255), Name VARCHAR(255))")
+
+# ____________________________ inserting into members table _________________________________________
+cursor.execute("INSERT INTO members"
+               " VALUES('ABHISHEK','abhi@gre.ac.uk', 'abhi')")
+cursor.execute("INSERT INTO members"
+               " VALUES('AN','ani@gre.ac.uk', 'ani')")
+cursor.execute("INSERT INTO members"
+               " VALUES('ANR','anu@gre.ac.uk', 'an)")
+cursor.execute("INSERT INTO members"
+               " VALUES('AM','amol@gre.ac.uk', 'aml')")
+
+members_data = cursor.execute("SELECT * FROM members").fetchall()
+
+print("Member Table:", members_data)
+
+# ____________________________ inserting into meetings table _________________________________________
+cursor.execute("INSERT INTO meetings"
+               " VALUES('Hello Python', '2.7.21', '12', 'ABHISHEK AN')")
+cursor.execute("INSERT INTO meetings"
+               " VALUES('Hello World', '3.7.21', '12', 'ABHISHEK')")
+cursor.execute("INSERT INTO meetings"
+               " VALUES('Hello Scheme', '4.7.21', '12', 'ABHISHEK AN AML ANR')")
+
+meetings_data = cursor.execute("SELECT * FROM meetings").fetchall()
+
+print("Meeting Table:", meetings_data)
+
+# __________________Gui starts _____________
+root = tk.Tk()
+root.title("Meeting Portal")
+screen_geometry()
+
+# __________________ Image _________________
+uog_img = tk.PhotoImage(file='logo.png')
+
+# __________________ Frames Start ________________________
+login_password_frame = tk.Frame(root)
+login_password_frame.config(bg='white')
+
+
+
+
+
+# ___________________ Login and password frame __________________
+uog_label = tk.Label(login_password_frame, image=uog_img, bg='white')
+uog_label.pack(pady=10)
+
+enter_uid_label = tk.Label(login_password_frame, text='Enter UID Password:', font=('calibri', '14'))
+enter_uid_label.config(bg='white')
+enter_uid_label.pack(pady=20)
+
+uid_1 = tk.Entry(login_password_frame, width=25)
+uid_1.configure(border=1, font=('calibri', '13'))
+uid_1.place(x=150, y=130)
+
+password_1 = tk.Entry(login_password_frame, width=25)
+password_1.configure(border=1, font=('calibri', '13'))
+password_1.place(x=150, y=155)
+
+uid_2 = tk.Entry(login_password_frame, width=25)
+uid_2.configure(border=1, font=('calibri', '13'))
+uid_2.place(x=150, y=200)
+
+password_2 = tk.Entry(login_password_frame, width=25)
+password_2.configure(border=1, font=('calibri', '13'))
+password_2.place(x=150, y=225)
+
+uid_3 = tk.Entry(login_password_frame, width=25)
+uid_3.configure(border=1, font=('calibri', '13'))
+uid_3.place(x=150, y=260)
